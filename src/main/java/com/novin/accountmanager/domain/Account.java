@@ -1,21 +1,22 @@
 package com.novin.accountmanager.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
 @Entity
+@Table(name = "accounts")
 public class Account {
     @Id
     @GeneratedValue
     private Long id;
 
     @NotEmpty
-    private String customerName;
+    @Column(name = "userName")
+    private String userName;
     @NotNull
     private Date deadLine;
     @NotEmpty
@@ -25,12 +26,30 @@ public class Account {
     @NotNull
     private Long price;
 
-    public String getCustomerName() {
-        return customerName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", nullable = false)
+    @JsonIgnore
+    private User user;
+
+    public Account(Account account, User owner) {
+        this.setComment(account.getComment());
+        this.setDeadLine(account.getDeadLine());
+        this.setPrice(account.getPrice());
+        this.setUserName(account.getUserName());
+        this.setItemName(account.getItemName());
+        this.setUser(owner);
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public Account() {
+
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String customerName) {
+        this.userName = customerName;
     }
 
     public Date getDeadLine() {
@@ -69,8 +88,15 @@ public class Account {
         this.id = id;
     }
 
-    @Id
     public Long getId() {
         return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

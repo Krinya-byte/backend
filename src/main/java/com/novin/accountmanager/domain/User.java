@@ -1,15 +1,14 @@
 package com.novin.accountmanager.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
+@Table(name="users")
 public class User {
     @Id
     @GeneratedValue
@@ -19,13 +18,16 @@ public class User {
     private String name;
 
     @NotEmpty
-    @Column(unique = true)
+    @Column(unique = true, name="ownerName")
     private String userName;
 
     @NotEmpty
     private String password;
 
     private Date loginDate;
+
+    @OneToMany(targetEntity = Account.class, mappedBy = "id", orphanRemoval = false, fetch = FetchType.LAZY)
+    private List<Account> accounts;
 
     public String getName() {
         return name;
@@ -68,4 +70,11 @@ public class User {
         return id;
     }
 
+    public List<Account> getAccounts() {
+        return accounts;
+    }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
 }
