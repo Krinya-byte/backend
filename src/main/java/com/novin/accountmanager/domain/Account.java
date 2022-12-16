@@ -15,7 +15,12 @@ public class Account {
     private Long id;
 
     @NotEmpty
-    @Column(name = "userName")
+    @Column(name = "customerName")
+    private String customerName;
+
+
+
+    @NotEmpty
     private String userName;
     @NotNull
     private Date deadLine;
@@ -35,21 +40,22 @@ public class Account {
         this.setComment(account.getComment());
         this.setDeadLine(account.getDeadLine());
         this.setPrice(account.getPrice());
-        this.setUserName(account.getUserName());
+        this.setCustomerName(account.getCustomerName());
         this.setItemName(account.getItemName());
         this.setUser(owner);
+        this.setUserName(owner.getUserName());
     }
 
     public Account() {
 
     }
 
-    public String getUserName() {
-        return userName;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setUserName(String customerName) {
-        this.userName = customerName;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public Date getDeadLine() {
@@ -98,5 +104,13 @@ public class Account {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

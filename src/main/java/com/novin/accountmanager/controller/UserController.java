@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -41,8 +44,11 @@ public class UserController {
             return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
         }
         if(password.equals(user.getPassword())){
+            user.setLoginDate(new Date(System.currentTimeMillis()));
+            userRepository.saveAndFlush(user);
             return new ResponseEntity<User>(user,HttpStatus.OK);
         }
+
         return new ResponseEntity<User>(HttpStatus.UNAUTHORIZED);
     }
 }

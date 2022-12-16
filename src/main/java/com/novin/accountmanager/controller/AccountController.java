@@ -30,7 +30,7 @@ public class AccountController {
 @GetMapping("{ownerName}")
 @ResponseBody
 public ResponseEntity<Account> getAccount(@PathVariable String ownerName){
-        Account acc = accountRepository.findByUserName(ownerName);
+        Account acc = accountRepository.findByCustomerName(ownerName);
         return  new ResponseEntity<Account>(acc, HttpStatus.OK);
 }
     private HttpStatus validateOwner(Account account, User owner, String password) {
@@ -49,7 +49,7 @@ public ResponseEntity<Account> getAccount(@PathVariable String ownerName){
 
     private boolean validateAccount(Account account) {
         return account == null
-                || (account.getUserName() == null || account.getUserName().isEmpty())
+                || (account.getCustomerName() == null || account.getCustomerName().isEmpty())
                 || (account.getDeadLine() == null)
                 || (account.getItemName() == null || account.getItemName().isEmpty())
                 || (account.getComment() == null || account.getComment().isEmpty())

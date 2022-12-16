@@ -18,8 +18,7 @@ public class User {
     private String name;
 
     @NotEmpty
-    @Column(unique = true, name="ownerName")
-    private String userName;
+     private String userName;
 
     @NotEmpty
     private String password;
